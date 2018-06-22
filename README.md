@@ -21,12 +21,15 @@ If you do not have `bower` installed already, you can install it globally by run
 ## Install
 
 ```sh
-$git clone https://github.com/sabhiram/raspberry-wifi-conf.git
-$cd raspberry-wifi-conf
-$npm update
-$bower install
-$sudo npm run-script provision
-$sudo npm start
+sudo npm install bower -g
+cd /home/pi
+git clone https://github.com/diverjoe/raspberry-wifi-conf.git
+cd raspberry-wifi-conf
+npm update
+bower install
+sudo npm run-script provision
+sudo npm start
+which dhcpcd
 ```
 
 Now lets check to see if you have `dhcpcd` installed on your os, if you do - we have one more small step.
@@ -49,9 +52,10 @@ echo "denyinterfaces wlan0" | cat - /etc/dhcpcd.conf > /tmp/out && sudo mv /tmp/
 There is a startup script included to make the server starting and stopping easier. Do remember that the application is assumed to be installed under `/home/pi/raspberry-wifi-conf`. Feel free to change this in the `assets/init.d/raspberry-wifi-conf` file.
 
 ```sh
-$sudo cp assets/init.d/raspberry-wifi-conf /etc/init.d/raspberry-wifi-conf 
-$sudo chmod +x /etc/init.d/raspberry-wifi-conf  
-$sudo update-rc.d raspberry-wifi-conf defaults
+cd /home/pi/raspberry-wifi-conf
+sudo cp assets/init.d/raspberry-wifi-conf /etc/init.d/raspberry-wifi-conf 
+sudo chmod +x /etc/init.d/raspberry-wifi-conf  
+sudo update-rc.d raspberry-wifi-conf defaults
 ```
 
 ### Gotchas
@@ -62,15 +66,15 @@ The `hostapd` application does not like to behave itself on some wifi adapters (
 
 ```
 # run iw to detect if you have a rtl871xdrv or nl80211 driver
-$iw list
+iw list
 ```
 
 If the above says `nl80211 not found.` it means you are running the `rtl871xdrv` driver and probably need to update the `hostapd` binary as follows:
 ```
-$cd raspberry-wifi-conf
-$sudo mv /usr/sbin/hostapd /usr/sbin/hostapd.OLD
-$sudo mv assets/bin/hostapd.rtl871xdrv /usr/sbin/hostapd
-$sudo chmod 755 /usr/sbin/hostapd
+cd raspberry-wifi-conf
+sudo mv /usr/sbin/hostapd /usr/sbin/hostapd.OLD
+sudo mv assets/bin/hostapd.rtl871xdrv /usr/sbin/hostapd
+sudo chmod 755 /usr/sbin/hostapd
 ```
 
 Note that the `wifi_driver_type` config variable is defaulted to the `nl80211` driver. However, if `iw list` fails on the app startup, it will automatically set the driver type of `rtl871xdrv`. Remember that even though you do not need to update the config / default value - you will need to use the updated `hostapd` binary bundled with this app.
