@@ -21,7 +21,14 @@ If you do not have `bower` installed already, you can install it globally by run
 ## Install
 
 ```sh
+# seems to get packages needded for installs to work
+sudo apt-get install build-essential
+bash <(curl -sL https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/update-nodejs-and-nodered)
+sudo systemctl enable nodered.service
+
+sudo apt-get install git
 sudo npm install bower -g
+
 cd /home/pi
 git clone https://github.com/diverjoe/raspberry-wifi-conf.git
 cd raspberry-wifi-conf
