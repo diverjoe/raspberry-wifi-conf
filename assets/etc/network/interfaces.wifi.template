@@ -7,6 +7,13 @@ auto lo
 iface lo inet loopback
 iface eth0 inet dhcp
 
+auto wlan1
+
+allow-hotplug wlan1
+
+iface wlan1 inet manual
+   wpa-conf /etc/wpa_supplicant/wpa_supplicant_ESP_AP.conf
+
 auto wlan0
 allow-hotplug wlan0
 iface wlan0 inet dhcp
